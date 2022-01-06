@@ -1,7 +1,10 @@
 from solcx import compile_standard, install_solc
 import json
 from web3 import Web3
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 with open("./SimpleStorage.sol", "r") as file:
     simple_storage_file = file.read()
@@ -35,23 +38,22 @@ abi = compiled_sol["contracts"]["SimpleStorage.sol"]["SimpleStorage"]["abi"]
 w3 = Web3(Web3.HTTPProvider("HTTP://127.0.0.1:7545"))
 chain_id = 1337
 my_address = "0x7eeB11bEa83b3ECB18911E82A4689278286D8171"
-private_key = "0x56e9bc376d40361b52df29a629074f75ddfe9450dfc4994b2b2a1ba6103d76f1"
+private_key = os.getenv("PRIVATE_KEY") # access private key by 'export PRIVATE_KEY=....' from terminal
 
 # Create contract in python
 SimpleStorage = w3.eth.contract(abi=abi, bytecode=bytecode) # our contract class/object
-# print(SimpleStorage)
 
 # get latet transaction
 nonce = w3.eth.getTransactionCount(my_address)
 gas_price = w3.eth.gas_price
-print("nonce - ", gas_price)
 
 
 # inorder to deploy a contract, we need to
   # 1) build contract deploy transaction
 transaction = SimpleStorage.constructor().buildTransaction({"chainId":chain_id, "from":my_address, "nonce":nonce, "gasPrice":gas_price})
   # 2) sign the transaction
-  # 3) Send the transaction
+signed_txn = w3.eth.account.sign_transaction(transaction,private_key=private_key)
+  # 3) Send the transaction to the blockchain
 
 
-print(transaction)
+print(signed_txn)
