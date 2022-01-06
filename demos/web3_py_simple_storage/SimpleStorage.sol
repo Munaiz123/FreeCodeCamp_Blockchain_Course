@@ -27,7 +27,7 @@ contract SimpleStorage{
 
     // FUNCTIONS / METHODS
 
-    function store(uint256 _favNumber) public {
+    function store(uint256 _favNumber) public  {
         favoriteNumber = _favNumber;
     }
 
