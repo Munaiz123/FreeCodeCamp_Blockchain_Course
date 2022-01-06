@@ -52,8 +52,17 @@ gas_price = w3.eth.gas_price
   # 1) build contract deploy transaction
 transaction = SimpleStorage.constructor().buildTransaction({"chainId":chain_id, "from":my_address, "nonce":nonce, "gasPrice":gas_price})
   # 2) sign the transaction
-signed_txn = w3.eth.account.sign_transaction(transaction,private_key=private_key)
-  # 3) Send the transaction to the blockchain
+signed_transaction = w3.eth.account.sign_transaction(transaction,private_key=private_key)
+  # 3) Send the transaction to the blockchain (local ganache)
+transaction_hash = w3.eth.send_raw_transaction(signed_transaction.rawTransaction)
+# waiting for block confirmation
+transaction_receipt = w3.eth.wait_for_transaction_receipt(transaction_hash)
+
+####################################################################################################################################
+# TILL NOW WE'VE DEPLOYED A CONTRACT, NOW WE NEED TO WORK WITH THE CONTRACT
+# WE NEED THE CONTRACT ADDRESS & CONTRACT ABI
+####################################################################################################################################
 
 
-print(signed_txn)
+
+print(transaction_receipt)
