@@ -1,10 +1,14 @@
 
-from brownie import accounts, config
+from brownie import accounts, config, SimpleStorage
 # import os
 
 def deploy_simple_storage():
+  print("*****************************************************************************************")
   account = accounts[0] # USING BROWNIE'S BUILT IN GANACHE ACCOUNTS THAT IT RUNS UP UPON INVOKATION
-  print(account)
+  print("Deploying....")
+  simple_storage = SimpleStorage.deploy({"from":account}) # always need a "from" key when making a transaction
+  print(simple_storage)
+
 
   # myAccount = accounts.load('munziTest') # ADDING ACCOUNTS PRIVATE KES THROUGH ECNCRYPTED COMMAND LINES
 
