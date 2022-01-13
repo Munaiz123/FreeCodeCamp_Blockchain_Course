@@ -7,7 +7,14 @@ def deploy_simple_storage():
   account = accounts[0] # USING BROWNIE'S BUILT IN GANACHE ACCOUNTS THAT IT RUNS UP UPON INVOKATION
   print("Deploying....")
   simple_storage = SimpleStorage.deploy({"from":account}) # always need a "from" key when making a transaction
-  print(simple_storage)
+
+
+  transaction =  simple_storage.store(17,{"from":account})
+  transaction.wait(1) # wait for transactions to finish
+
+
+  stored_value = simple_storage.retrieve() # a view function so we dont need "from" key
+  print("stored_value =>", stored_value)
 
 
   # myAccount = accounts.load('munziTest') # ADDING ACCOUNTS PRIVATE KES THROUGH ECNCRYPTED COMMAND LINES
