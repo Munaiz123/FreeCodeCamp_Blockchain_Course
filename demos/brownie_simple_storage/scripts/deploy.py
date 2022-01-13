@@ -18,6 +18,7 @@ def deploy_simple_storage():
 
 
 def get_account():
+
   if(network.show_active() == 'development'):
     return accounts[0]  # USING BROWNIE'S BUILT IN GANACHE ACCOUNTS THAT IT RUNS UP UPON INVOKATION
   else:
